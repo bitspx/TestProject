@@ -1,10 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>cn.terrysong.www</groupId>
   <artifactId>test.maven.project</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
   <name>TestMvnProject</name>
-  
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.7</java.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -13,5 +22,69 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <repositories>
+<!--     <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>http://central.maven.org/maven2/</url>
+    </repository> -->
+
+    <repository>
+      <id>alimaven</id>
+      <name>aliyun maven</name>
+      <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    </repository>
+    
+  </repositories>
   
+  <pluginRepositories>
+    <pluginRepository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>http://central.maven.org/maven2/</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <!-- java compiler plugin forked in extra process -->
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+      </plugin>
+      <plugin>
+        <!-- A plugin which uses the JUnit framework in order to start our 
+          junit suite "AllTests" after the sources are compiled. -->
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.17</version>
+      </plugin>
+      <plugin>
+        <!-- This plugin can package the main artifact's sources (src/main/java) 
+          in to jar archive. See target/junit-*-sources.jar. -->
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+
+
 </project>
