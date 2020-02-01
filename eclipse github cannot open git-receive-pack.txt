@@ -1,0 +1,41 @@
+eclipse github cannot open git-receive-pack
+
+https://blog.csdn.net/DylanTian/article/details/80685312
+https://blog.csdn.net/Royal__Moon/article/details/79427431
+
+打开eclipse安装目录下的eclipse.ini添加一句: -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2  就可以了。
+
+后来看到这篇博文http://blog.csdn.net/uikoo9/article/details/79383201，他提醒到会是ssl协议的版本不对。
+
+查看eclipse的错误日志，找到如下异常信息：
+
+MESSAGE https://github.com/apache/hadoop.git: cannot open git-upload-pack
+!STACK 0
+org.eclipse.jgit.api.errors.TransportException: https://github.com/apache/hadoop.git: cannot open git-upload-pack
+at org.eclipse.jgit.api.LsRemoteCommand.call(LsRemoteCommand.java:196)
+at org.eclipse.egit.core.op.ListRemoteOperation.run(ListRemoteOperation.java:99)
+at org.eclipse.egit.ui.internal.clone.SourceBranchPage$8.run(SourceBranchPage.java:324)
+at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:122)
+或者
+org.eclipse.jgit.errors.TransportException: https://github.com/XXXX/XXXX.git: cannot open git-receive-pack
+.......
+... 3 more
+最重要的异常信息其实是：
+Caused by: javax.net.ssl.SSLException: Received fatal alert: protocol_version
+就是ssl协议的版本不对，上面提到的博客还贴出了github的通知：
+2018年2月8日后禁止通过TLSv1.1协议连接https://github.com 和 https://api.github.com.
+
+原文地址为https://githubengineering.com/crypto-removal-notice/
+
+
+总结原因就是：
+我的eclipse是4.4.0版的并不是最新版的，因此我的ecplise的默认JDK为JDK1.7，当然最新版的eclipse默认是1.8的不会有这个问题，因为JDK1.8默认支持TLSv1.2，JDK1.7默认是TLSv1.1，所以需要将eclipse中的TLSv1改为TLSv1.2。怎么改呢？
+
+其实很简单，网上答案千奇百怪但是如果eclipse的默认JDK是1.7的就简单，如果是1.7以下的请另外百度。。。。
+
+打开eclipse安装目录下的eclipse.ini添加一句：-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2  就可以了。
+————————————————
+版权声明：本文为CSDN博主「Royal__Moon」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/Royal__Moon/article/details/79427431
+
+
